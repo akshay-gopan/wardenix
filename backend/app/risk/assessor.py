@@ -17,15 +17,37 @@ from app.enums import RiskBand
 # --- signal vocabularies (lowercased) ---
 _DESTRUCTIVE = frozenset(
     {
-        "delete", "remove", "destroy", "drop", "truncate", "purge", "wipe",
-        "erase", "format", "kill", "terminate", "overwrite", "rmdir", "unlink",
+        "delete",
+        "remove",
+        "destroy",
+        "drop",
+        "truncate",
+        "purge",
+        "wipe",
+        "erase",
+        "format",
+        "kill",
+        "terminate",
+        "overwrite",
+        "rmdir",
+        "unlink",
     }
 )
 _SECRET_KEYS = frozenset(
     {
-        "password", "passwd", "secret", "token", "api_key", "apikey",
-        "authorization", "access_key", "secret_key", "private_key",
-        "credential", "credentials", "ssn",
+        "password",
+        "passwd",
+        "secret",
+        "token",
+        "api_key",
+        "apikey",
+        "authorization",
+        "access_key",
+        "secret_key",
+        "private_key",
+        "credential",
+        "credentials",
+        "ssn",
     }
 )
 _NETWORK_KEYS = frozenset({"url", "uri", "endpoint", "host", "hostname", "webhook"})

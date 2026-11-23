@@ -65,9 +65,7 @@ async def test_role_gating(api):
     # viewer can read policies...
     assert (await api.get("/api/policies", headers=_auth(viewer_token))).status_code == 200
     # ...but cannot create one (admin-only) -> 403
-    r = await api.post(
-        "/api/policies", headers=_auth(viewer_token), json={"name": "p1"}
-    )
+    r = await api.post("/api/policies", headers=_auth(viewer_token), json={"name": "p1"})
     assert r.status_code == 403
     # admin can
     r = await api.post("/api/policies", headers=_auth(admin_token), json={"name": "p1"})
@@ -120,7 +118,10 @@ async def test_approval_attribution_and_gating(api):
         await s.refresh(agent)
         await s.refresh(server)
         ar = ApprovalRequest(
-            agent_id=agent.id, server_id=server.id, tool="echo", args_hash="h",
+            agent_id=agent.id,
+            server_id=server.id,
+            tool="echo",
+            args_hash="h",
             status=ApprovalStatus.PENDING.value,
             expires_at=__import__("datetime").datetime.now(__import__("datetime").UTC)
             + __import__("datetime").timedelta(hours=1),

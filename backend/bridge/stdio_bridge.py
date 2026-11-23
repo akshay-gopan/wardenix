@@ -86,9 +86,7 @@ def _build_bridge_server(
         async def do_call() -> mt.CallToolResult:
             return await session.call_tool(params.name, params.arguments or {})
 
-        return await resolve_call(
-            do_call, get_status, interval=interval, deadline=deadline
-        )
+        return await resolve_call(do_call, get_status, interval=interval, deadline=deadline)
 
     return Server(
         "wardenix-bridge",
@@ -106,8 +104,11 @@ async def _run(args: argparse.Namespace) -> None:
             async with ClientSession(read, write) as session:
                 await session.initialize()
                 bridge = _build_bridge_server(
-                    session, http, args.api_base,
-                    interval=args.poll_interval, deadline=args.timeout,
+                    session,
+                    http,
+                    args.api_base,
+                    interval=args.poll_interval,
+                    deadline=args.timeout,
                 )
                 async with stdio_server() as (r, w):
                     await bridge.run(r, w, bridge.create_initialization_options())

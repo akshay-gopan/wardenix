@@ -53,7 +53,9 @@ async def test_secrets_redacted_in_approval(seeded):
         policy_id = (await s.execute(select(Policy.id))).scalar_one()
         s.add(
             Rule(
-                policy_id=policy_id, priority=1, action="require_approval",
+                policy_id=policy_id,
+                priority=1,
+                action="require_approval",
                 conditions={"tools": ["echo"]},
             )
         )

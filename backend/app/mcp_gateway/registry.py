@@ -25,7 +25,5 @@ def make_namespaced(server_name: str, tool_name: str) -> str:
 def split_namespaced(name: str) -> tuple[str, str]:
     server_name, sep, tool_name = name.partition(NAMESPACE_SEP)
     if not sep or not server_name or not tool_name:
-        raise InvalidNamespacedName(
-            f"expected '<server>{NAMESPACE_SEP}<tool>', got {name!r}"
-        )
+        raise InvalidNamespacedName(f"expected '<server>{NAMESPACE_SEP}<tool>', got {name!r}")
     return server_name, tool_name

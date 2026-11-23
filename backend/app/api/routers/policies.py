@@ -60,9 +60,7 @@ async def list_policies(session: AsyncSession = Depends(get_session)) -> list[di
 async def create_policy(body: PolicyCreate, session: AsyncSession = Depends(get_session)) -> dict:
     if await session.scalar(select(Policy).where(Policy.name == body.name)):
         raise HTTPException(status_code=409, detail="policy name already exists")
-    policy = Policy(
-        name=body.name, enabled=body.enabled, default_action=body.default_action.value
-    )
+    policy = Policy(name=body.name, enabled=body.enabled, default_action=body.default_action.value)
     session.add(policy)
     await session.commit()
     await session.refresh(policy)

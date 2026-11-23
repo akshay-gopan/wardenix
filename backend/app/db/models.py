@@ -87,9 +87,7 @@ class MCPServer(Base, TimestampMixin):
     tags: Mapped[list] = mapped_column(JSONB, default=list, nullable=False)
     health: Mapped[str] = mapped_column(String(32), default="unknown", nullable=False)
 
-    tools: Mapped[list[Tool]] = relationship(
-        back_populates="server", cascade="all, delete-orphan"
-    )
+    tools: Mapped[list[Tool]] = relationship(back_populates="server", cascade="all, delete-orphan")
 
 
 class Tool(Base):
@@ -123,9 +121,7 @@ class Policy(Base, TimestampMixin):
     default_action: Mapped[str] = mapped_column(String(32), default="deny", nullable=False)
     version: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
 
-    rules: Mapped[list[Rule]] = relationship(
-        back_populates="policy", cascade="all, delete-orphan"
-    )
+    rules: Mapped[list[Rule]] = relationship(back_populates="policy", cascade="all, delete-orphan")
 
 
 class Rule(Base, TimestampMixin):

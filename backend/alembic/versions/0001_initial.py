@@ -8,6 +8,7 @@ Revision ID: 0001_initial
 Revises:
 Create Date: 2026-11-21
 """
+
 from __future__ import annotations
 
 from collections.abc import Sequence

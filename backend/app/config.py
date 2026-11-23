@@ -25,9 +25,7 @@ class Settings(BaseSettings):
 
     # --- Database (standard POSTGRES_* / DATABASE_URL names, no WARDENIX_ prefix) ---
     postgres_user: str = Field("wardenix", validation_alias=AliasChoices("POSTGRES_USER"))
-    postgres_password: str = Field(
-        "wardenix", validation_alias=AliasChoices("POSTGRES_PASSWORD")
-    )
+    postgres_password: str = Field("wardenix", validation_alias=AliasChoices("POSTGRES_PASSWORD"))
     postgres_db: str = Field("wardenix", validation_alias=AliasChoices("POSTGRES_DB"))
     postgres_host: str = Field("db", validation_alias=AliasChoices("POSTGRES_HOST"))
     postgres_port: int = Field(5432, validation_alias=AliasChoices("POSTGRES_PORT"))

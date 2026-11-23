@@ -17,9 +17,7 @@ PG_HOST = os.environ.get("POSTGRES_HOST_TEST", "localhost")
 PG_PORT = os.environ.get("POSTGRES_PORT", "5432")
 TEST_DB = "wardenix_test"
 
-os.environ["DATABASE_URL"] = (
-    f"postgresql+asyncpg://{PG_USER}:{PG_PW}@{PG_HOST}:{PG_PORT}/{TEST_DB}"
-)
+os.environ["DATABASE_URL"] = f"postgresql+asyncpg://{PG_USER}:{PG_PW}@{PG_HOST}:{PG_PORT}/{TEST_DB}"
 os.environ["WARDENIX_JWT_SECRET"] = "test-secret-key-at-least-32-bytes-long-000"
 os.environ["WARDENIX_UPSTREAM_TIMEOUT_SECONDS"] = "1"
 

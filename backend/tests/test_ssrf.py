@@ -29,15 +29,11 @@ def test_private_allowed_when_permitted():
 
 def test_allowlist_mismatch_rejected():
     with pytest.raises(SsrfError):
-        validate_http_url(
-            "http://10.0.0.5/mcp", allowlist=["tools.internal"], allow_private=True
-        )
+        validate_http_url("http://10.0.0.5/mcp", allowlist=["tools.internal"], allow_private=True)
 
 
 def test_allowlist_match_allows_private():
-    ips = validate_http_url(
-        "http://10.0.0.5/mcp", allowlist=["10.0.0.5"], allow_private=False
-    )
+    ips = validate_http_url("http://10.0.0.5/mcp", allowlist=["10.0.0.5"], allow_private=False)
     assert ips == ["10.0.0.5"]
 
 

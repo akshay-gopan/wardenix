@@ -71,7 +71,11 @@ async def test_timeout_surfaces_pending():
         return "pending"
 
     out = await resolve_call(
-        do_call, get_status, interval=0, deadline=5, sleep=_noop_sleep,
+        do_call,
+        get_status,
+        interval=0,
+        deadline=5,
+        sleep=_noop_sleep,
         clock=lambda: next(clock_values),
     )
     assert out is pending

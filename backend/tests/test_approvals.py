@@ -135,23 +135,39 @@ async def test_restart_reconciles_orphaned_executions(seeded):
     # Fabricate orphaned executions as if a crash left them mid-flight.
     async with seeded.sessionmaker() as s:
         ar1 = ApprovalRequest(
-            agent_id=seeded.agent.id, server_id=seeded.server.id, tool="echo",
-            args_hash="h1", status=ApprovalStatus.CONSUMED.value,
+            agent_id=seeded.agent.id,
+            server_id=seeded.server.id,
+            tool="echo",
+            args_hash="h1",
+            status=ApprovalStatus.CONSUMED.value,
             expires_at=datetime.now(UTC),
         )
         ar2 = ApprovalRequest(
-            agent_id=seeded.agent.id, server_id=seeded.server.id, tool="echo",
-            args_hash="h2", status=ApprovalStatus.CONSUMED.value,
+            agent_id=seeded.agent.id,
+            server_id=seeded.server.id,
+            tool="echo",
+            args_hash="h2",
+            status=ApprovalStatus.CONSUMED.value,
             expires_at=datetime.now(UTC),
         )
         s.add_all([ar1, ar2])
         await s.commit()
         await s.refresh(ar1)
         await s.refresh(ar2)
-        s.add(Execution(permit_id=ar1.id, correlation_id=ar1.correlation_id,
-                        state=ExecutionState.AUTHORIZED.value))
-        s.add(Execution(permit_id=ar2.id, correlation_id=ar2.correlation_id,
-                        state=ExecutionState.EXECUTING.value))
+        s.add(
+            Execution(
+                permit_id=ar1.id,
+                correlation_id=ar1.correlation_id,
+                state=ExecutionState.AUTHORIZED.value,
+            )
+        )
+        s.add(
+            Execution(
+                permit_id=ar2.id,
+                correlation_id=ar2.correlation_id,
+                state=ExecutionState.EXECUTING.value,
+            )
+        )
         await s.commit()
 
     counts = await seeded.manager.reconcile_orphaned_executions()

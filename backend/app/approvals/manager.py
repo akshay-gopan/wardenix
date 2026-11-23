@@ -219,9 +219,7 @@ class ApprovalManager:
         if finished:
             values["finished_at"] = func.now()
         async with self._sm() as s:
-            await s.execute(
-                update(Execution).where(Execution.id == execution_id).values(**values)
-            )
+            await s.execute(update(Execution).where(Execution.id == execution_id).values(**values))
             await s.commit()
 
     # --- queries ---

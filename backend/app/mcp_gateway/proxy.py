@@ -124,18 +124,24 @@ class Gateway:
             server_name, tool_name = split_namespaced(namespaced_name)
         except InvalidNamespacedName:
             return await self._deny(
-                correlation_id, agent, None, namespaced_name, {},
+                correlation_id,
+                agent,
+                None,
+                namespaced_name,
+                {},
                 UnknownTool(f"not a valid namespaced tool: {namespaced_name!r}"),
             )
         async with self._sm() as session:
             server = await session.scalar(
-                select(MCPServer).where(
-                    MCPServer.name == server_name, MCPServer.enabled.is_(True)
-                )
+                select(MCPServer).where(MCPServer.name == server_name, MCPServer.enabled.is_(True))
             )
         if server is None:
             return await self._deny(
-                correlation_id, agent, None, namespaced_name, {},
+                correlation_id,
+                agent,
+                None,
+                namespaced_name,
+                {},
                 UnknownTool(f"unknown or disabled server {server_name!r}"),
             )
 
@@ -144,13 +150,21 @@ class Gateway:
             size = len(json.dumps(arguments, default=str).encode("utf-8"))
         except (TypeError, ValueError):
             return await self._deny(
-                correlation_id, agent, server, namespaced_name, {},
+                correlation_id,
+                agent,
+                server,
+                namespaced_name,
+                {},
                 ArgsTooLarge("arguments are not serializable"),
             )
         redacted = redact(arguments)
         if size > self._settings.max_args_bytes:
             return await self._deny(
-                correlation_id, agent, server, namespaced_name, redacted,
+                correlation_id,
+                agent,
+                server,
+                namespaced_name,
+                redacted,
                 ArgsTooLarge(f"arguments exceed {self._settings.max_args_bytes} bytes"),
             )
 
@@ -264,7 +278,13 @@ class Gateway:
             # lost the race (concurrent retry already consumed it) -> replay reject
             return _error_result("replay_rejected", "this approval has already been used")
         return await self._execute_with_permit(
-            agent, server, tool_name, namespaced_name, arguments, redacted, live,
+            agent,
+            server,
+            tool_name,
+            namespaced_name,
+            arguments,
+            redacted,
+            live,
             decision_correlation_id,
         )
 

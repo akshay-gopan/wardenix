@@ -68,16 +68,37 @@ def test_min_risk_band():
 
 
 def test_arg_matchers():
-    assert rule_matches({"args": [{"key": "mode", "op": "equals", "value": "rw"}]},
-                        _ctx(arguments={"mode": "rw"})) is True
-    assert rule_matches({"args": [{"key": "a.b", "op": "exists"}]},
-                        _ctx(arguments={"a": {"b": 1}})) is True
-    assert rule_matches({"args": [{"key": "x", "op": "in", "value": [1, 2]}]},
-                        _ctx(arguments={"x": 2})) is True
-    assert rule_matches({"args": [{"key": "p", "op": "regex", "value": r"^/etc/"}]},
-                        _ctx(arguments={"p": "/etc/passwd"})) is True
-    assert rule_matches({"args": [{"key": "p", "op": "regex", "value": r"^/etc/"}]},
-                        _ctx(arguments={"p": "/home/x"})) is False
+    assert (
+        rule_matches(
+            {"args": [{"key": "mode", "op": "equals", "value": "rw"}]},
+            _ctx(arguments={"mode": "rw"}),
+        )
+        is True
+    )
+    assert (
+        rule_matches({"args": [{"key": "a.b", "op": "exists"}]}, _ctx(arguments={"a": {"b": 1}}))
+        is True
+    )
+    assert (
+        rule_matches(
+            {"args": [{"key": "x", "op": "in", "value": [1, 2]}]}, _ctx(arguments={"x": 2})
+        )
+        is True
+    )
+    assert (
+        rule_matches(
+            {"args": [{"key": "p", "op": "regex", "value": r"^/etc/"}]},
+            _ctx(arguments={"p": "/etc/passwd"}),
+        )
+        is True
+    )
+    assert (
+        rule_matches(
+            {"args": [{"key": "p", "op": "regex", "value": r"^/etc/"}]},
+            _ctx(arguments={"p": "/home/x"}),
+        )
+        is False
+    )
 
 
 # --------------------------------------------------------------------------- #

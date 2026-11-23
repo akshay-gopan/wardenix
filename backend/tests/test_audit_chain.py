@@ -67,18 +67,14 @@ async def test_verify_detects_tampering(sessionmaker):
 
     # Tamper by bypassing the append-only trigger (owner-only operation).
     async with sessionmaker() as s:
-        await s.execute(
-            text("ALTER TABLE audit_events DISABLE TRIGGER audit_events_append_only")
-        )
+        await s.execute(text("ALTER TABLE audit_events DISABLE TRIGGER audit_events_append_only"))
         await s.execute(
             text(
                 "UPDATE audit_events SET decision='deny' "
                 "WHERE seq=(SELECT min(seq) FROM audit_events)"
             )
         )
-        await s.execute(
-            text("ALTER TABLE audit_events ENABLE TRIGGER audit_events_append_only")
-        )
+        await s.execute(text("ALTER TABLE audit_events ENABLE TRIGGER audit_events_append_only"))
         await s.commit()
 
     result = await verify_chain(sessionmaker)
