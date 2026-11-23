@@ -1,0 +1,58 @@
+name: wardenix
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-wardenix}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-wardenix}
+      POSTGRES_DB: ${POSTGRES_DB:-wardenix}
+    volumes:
+      - wardenix_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-wardenix} -d ${POSTGRES_DB:-wardenix}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+  gateway:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-wardenix}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-wardenix}
+      POSTGRES_DB: ${POSTGRES_DB:-wardenix}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      WARDENIX_JWT_SECRET: ${WARDENIX_JWT_SECRET:-dev-only-insecure-secret-change-me}
+      WARDENIX_BOOTSTRAP_ADMIN_EMAIL: ${WARDENIX_BOOTSTRAP_ADMIN_EMAIL:-admin@wardenix.local}
+      WARDENIX_BOOTSTRAP_ADMIN_PASSWORD: ${WARDENIX_BOOTSTRAP_ADMIN_PASSWORD:-changeme-admin}
+      WARDENIX_LOG_LEVEL: ${WARDENIX_LOG_LEVEL:-INFO}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/healthz || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - gateway
+    ports:
+      - "8080:80"
+
+  # Upstream MCP servers are registered at runtime via the dashboard / API.
+
+volumes:
+  wardenix_db:

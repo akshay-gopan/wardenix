@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# E2E (Playwright)
+e2e/test-results/
+e2e/playwright-report/
+e2e/.cache/
+
+# Env & secrets
+.env
+*.local
+
+# OS / editor
+.DS_Store
+.idea/
+*.log
+
+# Docker
+.docker/
+
+# Scratch screenshots / artifacts
+.artifacts/
+
+# Claude Code workspace config (local only)
+.mcp.json

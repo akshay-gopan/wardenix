@@ -1,0 +1,46 @@
+name: Feature request
+description: Suggest a new capability or improvement
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, please search existing issues and discussions to see if the idea has already been raised.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation or pain point. Focus on the problem, not the solution.
+      placeholder: "When I deploy Wardenix in a multi-tenant setup, I have no way to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How would you like this to work? Include API sketches or config examples if helpful.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds you have tried, or alternative approaches you thought of.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area does this affect?
+      options:
+        - Gateway / MCP proxy
+        - Policy engine
+        - Risk assessment
+        - Approvals workflow
+        - Audit log
+        - Dashboard (frontend)
+        - Deployment / Docker
+        - Security hardening
+        - Other / unsure

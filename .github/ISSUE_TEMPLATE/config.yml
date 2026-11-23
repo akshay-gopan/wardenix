@@ -1,0 +1,7 @@
+---
+name: config
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/akshay-gopan/wardenix/blob/main/SECURITY.md
+    about: Please report security issues privately — do not open a public issue.
